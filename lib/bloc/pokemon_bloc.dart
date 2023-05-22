@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pokemontest/Domain/Entities/pokemon.dart';
-import 'package:pokemontest/Domain/Entities/pokemonList.dart';
-import 'package:pokemontest/Repository/pokemonRepository.dart';
+import 'package:pokemontest/domain/entities/pokemonList.dart';
+import 'package:pokemontest/repository/pokemonRepository.dart';
 
 part 'pokemon_event.dart';
 part 'pokemon_state.dart';

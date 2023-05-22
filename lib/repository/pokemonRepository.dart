@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:pokemontest/Domain/Entities/pokemon.dart';
-import 'package:pokemontest/Domain/Entities/pokemonAbility.dart';
 import 'package:dio/dio.dart';
-import 'package:pokemontest/Domain/Entities/pokemonList.dart';
-import 'package:pokemontest/Domain/Entities/pokemonStat.dart';
+import 'package:pokemontest/domain/entities/pokemon.dart';
+import 'package:pokemontest/domain/entities/pokemonAbility.dart';
+import 'package:pokemontest/domain/entities/pokemonList.dart';
+import 'package:pokemontest/domain/entities/pokemonStat.dart';
 
 abstract class PokemonRepository {
   Future<List<PokemonList>> getPokemonsList({required int page});

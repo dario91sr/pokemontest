@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
+import 'package:pokemontest/presentation/widget/cardpokemon.dart';
 import 'package:pokemontest/repository/pokemonRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,12 +26,11 @@ class HomePage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: state.pokemons.length,
                   itemBuilder: (context, index) {
+                    var pokemon = state.pokemons[index];
                     return GestureDetector(
                         onTap: () =>
                             PokeApiRepository().getPokemon(id: index + 1),
-                        child: Card(
-                          child: Text(state.pokemons[index].name),
-                        ));
+                        child: cardPokemon(pokemon));
                   },
                 ),
               );
