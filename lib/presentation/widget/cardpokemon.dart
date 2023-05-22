@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pokemontest/domain/data/constants.dart';
+import 'package:pokemontest/domain/entities/pokemon.dart';
 import 'package:pokemontest/domain/entities/pokemonList.dart';
 
-Widget cardPokemon(PokemonList pokemon) {
+Widget cardPokemon(Pokemon pokemon) {
   return Card(
     child: Column(
       children: [
         CircleAvatar(
           backgroundColor: Colors.white,
           child: Image.network(
-            pokemon.imgPath,
+            "$baseUrlImage${pokemon.id.toString()}.png",
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null)
                 return child;

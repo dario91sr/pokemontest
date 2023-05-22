@@ -11,6 +11,7 @@ class Pokemon extends Equatable {
   final int base_experience;
   final int order;
   final List<PokemonAbility> abilities;
+
 //final List<PokemonForm> forms;
 //final List<VersionGame> game_indices;
 //final List<PokemonHeldItem> held_items;

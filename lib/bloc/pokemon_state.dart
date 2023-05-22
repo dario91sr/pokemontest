@@ -12,7 +12,7 @@ class PokemonInitial extends PokemonState {}
 class PokemonLoading extends PokemonState {}
 
 class PokemonLoaded extends PokemonState {
-  late final List<PokemonList> pokemons;
+  late final List<Pokemon> pokemons;
   PokemonLoaded(this.pokemons);
 }
 
