@@ -14,3 +14,10 @@ class DownloadPokeList extends PokemonEvent {
     required this.page,
   });
 }
+
+class AddFavorite extends PokemonEvent {
+  int id;
+  AddFavorite({
+    required this.id,
+  });
+}

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
+import 'package:pokemontest/domain/entities/pokemon.dart';
 import 'package:pokemontest/presentation/widget/cardpokemon.dart';
+import 'package:pokemontest/presentation/widget/tabDueHome.dart';
+import 'package:pokemontest/presentation/widget/tabUnoHome.dart';
 import 'package:pokemontest/repository/pokemonRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -19,9 +27,14 @@ class HomePage extends StatelessWidget {
               "Pokedex",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            bottom: TabBar(
-                indicatorColor: Colors.white,
-                tabs: [Text("Lista Pokemon"), Text("Preferiti"), Tab()]),
+            bottom: TabBar(indicatorColor: Colors.white, tabs: [
+              Tab(
+                text: "Lista Pokemon",
+              ),
+              Tab(
+                text: "Preferiti",
+              )
+            ]),
           ),
           body: BlocBuilder<PokemonBloc, PokemonState>(
             builder: (context, state) {
@@ -30,18 +43,8 @@ class HomePage extends StatelessWidget {
               }
               if (state is PokemonLoaded) {
                 return TabBarView(children: [
-                  Container(
-                    child: ListView.builder(
-                      itemCount: state.pokemons.length,
-                      itemBuilder: (context, index) {
-                        var pokemon = state.pokemons[index];
-                        return GestureDetector(
-                            onTap: () =>
-                                PokeApiRepository().getPokemon(id: index + 1),
-                            child: cardPokemon(pokemon));
-                      },
-                    ),
-                  ),
+                  TabUno(state: state),
+                  //  tabDue(context, state.pokemons),
                 ]);
               } else {
                 return Text("Errore");

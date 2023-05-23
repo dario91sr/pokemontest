@@ -10,9 +10,12 @@ part 'pokemon_state.dart';
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   final _pokeRepo = PokeApiRepository();
 
-  PokemonBloc() : super(PokemonInitial()) {
+  PokemonBloc()
+      : super(PokemonInitial(
+          const [],
+        )) {
     on<DownloadPokeList>((event, emit) async {
-      emit(PokemonLoading());
+      emit(PokemonLoading(state.pokemons));
 
       List<Pokemon> pokemonList = [];
       List<PokemonList> pokemons =
@@ -27,6 +30,15 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       } else {
         emit(PokemonError("Errore"));
       }
+    });
+
+    on<AddFavorite>((event, emit) async {
+      emit(PokemonLoading(state.pokemons));
+      List<Pokemon> pokemons = [...state.pokemons];
+      bool pref = !pokemons[event.id - 1].preferiti;
+      pokemons[event.id - 1] = pokemons[event.id - 1].copyWith(preferiti: pref);
+
+      emit(PokemonLoaded(pokemons));
     });
   }
 }
