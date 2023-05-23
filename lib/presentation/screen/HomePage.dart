@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               if (state is PokemonLoaded) {
                 return TabBarView(children: [
                   TabUno(state: state),
-                  //  tabDue(context, state.pokemons),
+                  TabDue(state: state),
                 ]);
               } else {
                 return Text("Errore");

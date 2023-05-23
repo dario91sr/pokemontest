@@ -37,7 +37,7 @@ class _CardWidgetState extends State<CardWidget> {
                       radius: 60,
                       backgroundColor: Colors.white,
                       child: Image.network(
-                        "${baseUrlImage + state.pokemons[widget.id].id.toString()}.png",
+                        "${baseUrlImage + state.pokemons[widget.id - 1].id.toString()}.png",
                         fit: BoxFit.fill,
                         width: 250,
                       )),
@@ -45,11 +45,11 @@ class _CardWidgetState extends State<CardWidget> {
                     height: 12,
                   ),
                   Text(
-                    "#${state.pokemons[widget.id].id}",
+                    "#${state.pokemons[widget.id - 1].id}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  Text(state.pokemons[widget.id].name.capitalize(),
+                  Text(state.pokemons[widget.id - 1].name.capitalize(),
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20)),
                   const SizedBox(
@@ -63,11 +63,12 @@ class _CardWidgetState extends State<CardWidget> {
                 top: 15,
                 child: IconButton(
                     onPressed: () {
-                      bloc.add(AddFavorite(id: state.pokemons[widget.id].id));
+                      bloc.add(
+                          AddFavorite(id: state.pokemons[widget.id - 1].id));
                     },
                     icon: Icon(
                       Icons.favorite,
-                      color: state.pokemons[widget.id].preferiti != true
+                      color: state.pokemons[widget.id - 1].preferiti != true
                           ? Colors.white
                           : Colors.red,
                       size: 30,
