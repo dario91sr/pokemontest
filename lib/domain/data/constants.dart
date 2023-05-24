@@ -1,2 +1,2 @@
 const String baseUrlImage =
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/";
