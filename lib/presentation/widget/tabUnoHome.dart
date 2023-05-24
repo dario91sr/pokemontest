@@ -18,20 +18,36 @@ class TabUno extends StatefulWidget {
 }
 
 class _TabUnoState extends State<TabUno> {
+  List<Pokemon> pref = [];
+  caricaPref(PokemonState state) {
+    pref.clear();
+    state.pokemons.forEach((element) {
+      if (element.visible == true) {
+        pref.add(element);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.state.pokemons.length,
-      itemBuilder: (ctx, index) {
-        var pokemon = widget.state.pokemons[index];
-        return InkWell(
-            onTap: () {
-              /*  
-                BlocProvider.of<PokemonBloc>(context)
-                    .add(AddFavorite(id: pokemon.id));
-              */
-            },
-            child: CardWidget(id: pokemon.id));
+    var bloc = BlocProvider.of<PokemonBloc>(context);
+    return BlocBuilder<PokemonBloc, PokemonState>(
+      builder: (context, state) {
+        caricaPref(state);
+        return ListView.builder(
+          itemCount: pref.length,
+          itemBuilder: (ctx, index) {
+            var pokemon = pref[index];
+            return InkWell(
+                onTap: () {
+                  /*  
+                      BlocProvider.of<PokemonBloc>(context)
+                          .add(AddFavorite(id: pokemon.id));
+                    */
+                },
+                child: CardWidget(id: pokemon.id));
+          },
+        );
       },
     );
   }

@@ -8,10 +8,10 @@ import 'package:pokemontest/presentation/widget/cardpokemon.dart';
 import 'package:pokemontest/repository/pokemonRepository.dart';
 
 class TabDue extends StatefulWidget {
-  PokemonState state;
+  //PokemonState state;
   TabDue({
     Key? key,
-    required this.state,
+    //  required this.state,
   }) : super(key: key);
   @override
   State<TabDue> createState() => _TabDueState();
@@ -20,8 +20,9 @@ class TabDue extends StatefulWidget {
 class _TabDueState extends State<TabDue> {
   List<Pokemon> pref = [];
 
-  caricaPref() {
-    widget.state.pokemons.forEach((element) {
+  caricaPref(PokemonState state) {
+    pref.clear();
+    state.pokemons.forEach((element) {
       if (element.preferiti == true) {
         pref.add(element);
       }
@@ -32,23 +33,26 @@ class _TabDueState extends State<TabDue> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    caricaPref();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: pref.length,
-        itemBuilder: (ctx, index) {
-          return InkWell(
-              onTap: () {
-                /*  
-                BlocProvider.of<PokemonBloc>(context)
-                    .add(AddFavorite(id: pokemon.id));
-              */
-              },
-              child: CardWidget(id: pref[index].id));
-        });
+    return BlocBuilder<PokemonBloc, PokemonState>(
+      builder: (context, state) {
+        caricaPref(state);
+        return ListView.builder(
+            itemCount: pref.length,
+            itemBuilder: (ctx, index) {
+              return InkWell(
+                  onTap: () {
+                    /*  
+                          BlocProvider.of<PokemonBloc>(context)
+                              .add(AddFavorite(id: pokemon.id));
+                        */
+                  },
+                  child: CardWidget(id: pref[index].id));
+            });
+      },
+    );
   }
 }

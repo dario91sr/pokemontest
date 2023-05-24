@@ -11,16 +11,22 @@ class PercentualIndicator extends StatefulWidget {
 }
 
 class _PercentualIndicatorState extends State<PercentualIndicator> {
+  final _key = GlobalKey();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    avanza();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        size = _key.currentContext?.size?.width ?? 100.0;
+        print(size);
+        avanza();
+      }
+    });
   }
 
   avanza() async {
-    var val = widget.value * 250 / 100;
+    var val = widget.value * size / 100;
     for (var i = 0; i < val; i++) {
       Future.delayed(const Duration(milliseconds: 500), () {
         widthCont = i.toDouble();
@@ -39,34 +45,35 @@ class _PercentualIndicatorState extends State<PercentualIndicator> {
     widthCont = 0.0;
   }
 
+  var size;
   var colore = Colors.green;
   double widthCont = 0;
   @override
   Widget build(BuildContext context) {
-    //colore = Colors.red;
-    var val = widget.value / 100;
-    return Stack(alignment: AlignmentDirectional.center, children: [
-      Container(
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 51, 95, 0),
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all()),
-        width: 250,
-        height: 35,
-      ),
-      Positioned(
-        left: 0,
-        child: AnimatedContainer(
-          duration: Duration(seconds: 5),
-          decoration: BoxDecoration(
-              color: colore,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all()),
-          width: widthCont,
-          height: 35,
-        ),
-      ),
-      Text(widget.value.toString())
-    ]);
+    return Expanded(
+      flex: 1,
+      child: Stack(
+          key: _key,
+          alignment: AlignmentDirectional.centerStart,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 51, 95, 0),
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all()),
+              width: size,
+              height: 30,
+            ),
+            AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              decoration: BoxDecoration(
+                color: colore,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              width: widthCont,
+              height: 28,
+            ),
+          ]),
+    );
   }
 }

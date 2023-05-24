@@ -12,6 +12,7 @@ class Pokemon extends Equatable {
   final int order;
   final List<PokemonAbility> abilities;
   final bool preferiti;
+  final bool visible;
 //final List<PokemonForm> forms;
 //final List<VersionGame> game_indices;
 //final List<PokemonHeldItem> held_items;
@@ -28,6 +29,7 @@ class Pokemon extends Equatable {
     required this.order,
     required this.abilities,
     this.preferiti = false,
+    this.visible = true,
     required this.stats,
   });
 //final List<PokemonType> types;
@@ -39,6 +41,7 @@ class Pokemon extends Equatable {
     int? order,
     List<PokemonAbility>? abilities,
     bool? preferiti,
+    bool? visible,
     List<PokemonStat>? stats,
   }) {
     return Pokemon(
@@ -48,6 +51,7 @@ class Pokemon extends Equatable {
       order: order ?? this.order,
       abilities: abilities ?? this.abilities,
       preferiti: preferiti ?? this.preferiti,
+      visible: visible ?? this.visible,
       stats: stats ?? this.stats,
     );
   }

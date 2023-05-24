@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemontest/domain/entities/pokemon.dart';
 import 'package:pokemontest/presentation/screen/PokemonDetail.dart';
 
 class AppRouter {
@@ -7,7 +8,7 @@ class AppRouter {
     switch (routeSettings.name) {
       case PokemonDetail.pageid:
         return MaterialPageRoute(
-          builder: (_) => PokemonDetail(id: arguments as int),
+          builder: (_) => PokemonDetail(pokemon: arguments as Pokemon),
         );
     }
   }

@@ -21,3 +21,10 @@ class AddFavorite extends PokemonEvent {
     required this.id,
   });
 }
+
+class FilterPokemon extends PokemonEvent {
+  String filter;
+  FilterPokemon({
+    required this.filter,
+  });
+}

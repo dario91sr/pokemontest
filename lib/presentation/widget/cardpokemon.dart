@@ -23,6 +23,7 @@ class _CardWidgetState extends State<CardWidget> {
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<PokemonBloc>(context);
     return BlocBuilder<PokemonBloc, PokemonState>(
+      bloc: bloc,
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 25),
@@ -30,7 +31,7 @@ class _CardWidgetState extends State<CardWidget> {
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, PokemonDetail.pageid,
-                    arguments: widget.id);
+                    arguments: state.pokemons[widget.id - 1]);
               },
               child: Card(
                 color: Colors.green,

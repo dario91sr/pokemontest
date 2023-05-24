@@ -40,5 +40,26 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
 
       emit(PokemonLoaded(pokemons));
     });
+
+    on<FilterPokemon>((event, emit) {
+      emit(PokemonLoading(state.pokemons));
+      List<Pokemon> pokemons = [...state.pokemons];
+      //reset valore
+      for (var i = 0; i < pokemons.length; i++) {
+        pokemons[i] = pokemons[i].copyWith(visible: true);
+      }
+      //filtra dato
+      if (event.filter.isNotEmpty) {
+        for (var i = 0; i < pokemons.length; i++) {
+          if (/* pokemons[i].name != event.filter */ !pokemons[i]
+              .name
+              .contains(event.filter)) {
+            bool visible = false;
+            pokemons[i] = pokemons[i].copyWith(visible: visible);
+          }
+        }
+      }
+      emit(PokemonLoaded(pokemons));
+    });
   }
 }

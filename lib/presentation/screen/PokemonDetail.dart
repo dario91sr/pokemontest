@@ -5,14 +5,13 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
 import 'package:pokemontest/domain/data/constants.dart';
+import 'package:pokemontest/domain/entities/pokemon.dart';
+import 'package:pokemontest/presentation/widget/abilitiesContainer.dart';
 import 'package:pokemontest/presentation/widget/percentualindicator.dart';
 
 class PokemonDetail extends StatefulWidget {
-  int id;
-  PokemonDetail({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+  Pokemon pokemon;
+  PokemonDetail({Key? key, required this.pokemon}) : super(key: key);
 
   static const String pageid = "detail";
 
@@ -23,53 +22,93 @@ class PokemonDetail extends StatefulWidget {
 class _PokemonDetailState extends State<PokemonDetail> {
   @override
   Widget build(BuildContext context) {
-    bool _pinned = true;
-    bool _snap = false;
-    bool _floating = false;
-
     return Scaffold(
-      body: BlocBuilder<PokemonBloc, PokemonState>(
-        builder: (context, state) {
-          return CustomScrollView(slivers: <Widget>[
-            SliverAppBar(
-              pinned: _pinned,
-              snap: _snap,
-              floating: _floating,
-              expandedHeight: 160.0,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(state.pokemons[widget.id - 1].name),
-                background: Image.network(
-                  "${baseUrlImage + state.pokemons[widget.id - 1].id.toString()}.png",
-                  fit: BoxFit.contain,
-                ),
-              ),
+      body: CustomScrollView(slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          snap: false,
+          floating: true,
+          expandedHeight: 180.0,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(widget.pokemon.name),
+            background: Image.network(
+              "${baseUrlImage + widget.pokemon.id.toString()}.png",
+              fit: BoxFit.contain,
             ),
-            const SliverToBoxAdapter(
-              child: Center(
-                child: Text(
-                    "Caratteristiche"), //state.pokemons[widget.id - 1].stats[0].name),
-              ),
+          ),
+        ),
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                "Abilità",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ), //state.pokemons[widget.id - 1].stats[0].name),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: state.pokemons[widget.id - 1].stats.length,
-                (BuildContext context, int index) {
-                  var stat = state.pokemons[widget.id - 1].stats[index];
-                  return Container(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: PercentualIndicator(
-                            value: stat.base_stat.toDouble()),
-                      ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  abilitiesContainer(widget.pokemon.abilities[0].name),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  abilitiesContainer(widget.pokemon.abilities[1].name),
+                ],
+              ),
+            ), //state.pokemons[widget.id - 1].stats[0].name),
+          ),
+        ),
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                "Caratteristiche",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ), //state.pokemons[widget.id - 1].stats[0].name),
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            childCount: widget.pokemon.stats.length,
+            (BuildContext context, int index) {
+              var stat = widget.pokemon.stats[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        PercentualIndicator(value: stat.base_stat.toDouble()),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          stat.base_stat.toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
-            ),
-          ]);
-        },
-      ),
+                    Text(
+                      stat.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ]),
     );
   }
 }
