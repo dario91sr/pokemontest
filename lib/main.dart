@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
 import 'package:pokemontest/presentation/screen/HomePage.dart';
+import 'package:pokemontest/routes/appRoute.dart';
 
 void main() {
   runApp(MultiBlocProvider(
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
+      onGenerateRoute: AppRouter().onGenerateRoute,
     );
   }
 }
