@@ -23,7 +23,15 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<PokemonBloc, PokemonState>(
       builder: (context, state) {
         if (state is PokemonLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.red,
+                title: const Text(
+                  "Pokedex",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+              ),
+              body: const Center(child: CircularProgressIndicator()));
         }
         if (state is PokemonLoaded) {
           return DefaultTabController(
