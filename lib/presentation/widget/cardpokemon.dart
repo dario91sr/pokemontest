@@ -19,19 +19,22 @@ class CardWidget extends StatefulWidget {
 }
 
 class _CardWidgetState extends State<CardWidget> {
+  double indice = 0.0;
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<PokemonBloc>(context);
     return BlocBuilder<PokemonBloc, PokemonState>(
       bloc: bloc,
       builder: (context, state) {
+        indice = (widget.id - 1);
+
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 25),
           child: Stack(fit: StackFit.passthrough, children: [
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, PokemonDetail.pageid,
-                    arguments: state.pokemons[widget.id - 1]);
+                    arguments: state.pokemons[indice.toInt()]);
               },
               child: Card(
                 color: Colors.green,
@@ -44,7 +47,7 @@ class _CardWidgetState extends State<CardWidget> {
                         radius: 60,
                         backgroundColor: Colors.white,
                         child: Image.network(
-                          "${baseUrlImage + state.pokemons[widget.id - 1].id.toString()}.png",
+                          "${baseUrlImage + state.pokemons[indice.toInt()].id.toString()}.png",
                           fit: BoxFit.fill,
                           width: 250,
                         )),
@@ -52,11 +55,11 @@ class _CardWidgetState extends State<CardWidget> {
                       height: 12,
                     ),
                     Text(
-                      "#${state.pokemons[widget.id - 1].id}",
+                      "#${state.pokemons[indice.toInt()].id}",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20),
                     ),
-                    Text(state.pokemons[widget.id - 1].name.capitalize(),
+                    Text(state.pokemons[indice.toInt()].name.capitalize(),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
                     const SizedBox(
@@ -72,11 +75,11 @@ class _CardWidgetState extends State<CardWidget> {
                 child: IconButton(
                     onPressed: () {
                       bloc.add(
-                          AddFavorite(id: state.pokemons[widget.id - 1].id));
+                          AddFavorite(id: state.pokemons[indice.toInt()].id));
                     },
                     icon: Icon(
                       Icons.favorite,
-                      color: state.pokemons[widget.id - 1].preferiti != true
+                      color: state.pokemons[indice.toInt()].preferiti != true
                           ? Colors.white
                           : Colors.red,
                       size: 30,

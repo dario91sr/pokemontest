@@ -41,7 +41,7 @@ class _TabDueState extends State<TabDue> {
       builder: (context, state) {
         caricaPref(state);
         return ListView.builder(
-            itemCount: pref.length,
+            itemCount: state.pokemonsPref.length,
             itemBuilder: (ctx, index) {
               return InkWell(
                   onTap: () {
@@ -50,7 +50,7 @@ class _TabDueState extends State<TabDue> {
                               .add(AddFavorite(id: pokemon.id));
                         */
                   },
-                  child: CardWidget(id: pref[index].id));
+                  child: CardWidget(id: state.pokemonsPref[index].id));
             });
       },
     );

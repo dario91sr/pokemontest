@@ -10,39 +10,47 @@ part 'pokemon_state.dart';
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   final _pokeRepo = PokeApiRepository();
 
-  PokemonBloc()
-      : super(PokemonInitial(
-          const [],
-        )) {
+  PokemonBloc() : super(PokemonInitial(const [], 0, [])) {
     on<DownloadPokeList>((event, emit) async {
-      emit(PokemonLoading(state.pokemons));
+      emit(PokemonLoading(
+          state.pokemons, state.currentPage, state.pokemonsPref));
 
-      List<Pokemon> pokemonList = [];
-      List<PokemonList> pokemons =
-          await _pokeRepo.getPokemonsList(page: event.page);
+      List<Pokemon> pokemonList = [...state.pokemons];
+      // pokemonList.clear();
+      List<PokemonList> pokemons = await _pokeRepo.getPokemonsList(
+          page: event.page, numItem: event.numItem);
       for (var i = 0; i < pokemons.length; i++) {
         Pokemon? p = await _pokeRepo.getPokemon(id: pokemons[i].id);
         if (p != null) pokemonList.add(p);
       }
 
       if (pokemons.isNotEmpty) {
-        emit(PokemonLoaded(pokemonList));
+        emit(PokemonLoaded(pokemonList, event.page, state.pokemonsPref));
       } else {
         emit(PokemonError("Errore"));
       }
     });
 
     on<AddFavorite>((event, emit) async {
-      emit(PokemonLoading(state.pokemons));
+      emit(PokemonLoading(
+          state.pokemons, state.currentPage, state.pokemonsPref));
+
       List<Pokemon> pokemons = [...state.pokemons];
+      List<Pokemon> pokemonPref = [...state.pokemonsPref];
+
       bool pref = !pokemons[event.id - 1].preferiti;
       pokemons[event.id - 1] = pokemons[event.id - 1].copyWith(preferiti: pref);
-
-      emit(PokemonLoaded(pokemons));
+      if (pref) pokemonPref.add(pokemons[event.id - 1]);
+      if (!pref)
+        pokemonPref.removeWhere(
+          (element) => element.id == pokemons[event.id - 1].id,
+        );
+      emit(PokemonLoaded(pokemons, state.currentPage, pokemonPref));
     });
 
     on<FilterPokemon>((event, emit) {
-      emit(PokemonLoading(state.pokemons));
+      emit(PokemonLoading(
+          state.pokemons, state.currentPage, state.pokemonsPref));
       List<Pokemon> pokemons = [...state.pokemons];
       //reset valore
       for (var i = 0; i < pokemons.length; i++) {
@@ -59,7 +67,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
           }
         }
       }
-      emit(PokemonLoaded(pokemons));
+      emit(PokemonLoaded(pokemons, state.currentPage, state.pokemonsPref));
     });
   }
 }

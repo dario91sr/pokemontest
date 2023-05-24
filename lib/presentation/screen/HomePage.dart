@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
 import 'package:pokemontest/domain/entities/pokemon.dart';
 import 'package:pokemontest/presentation/widget/cardpokemon.dart';
@@ -40,7 +41,6 @@ class _HomePageState extends State<HomePage> {
                             onTap: () => BlocProvider.of<PokemonBloc>(context)
                                 .add(FilterPokemon(filter: "")),
                           ),
-                          PopupMenuItem(child: Text("Setta Pokemon per pagina"))
                         ];
                       },
                     )
@@ -61,15 +61,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 body: TabBarView(
                   children: [
-                    TabUno(
-                      state: state,
-                    ),
+                    TabUno(),
                     TabDue(),
                   ],
                 ),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    showModalBottomSheet<void>(
+                    showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
                           return Container(

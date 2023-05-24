@@ -8,10 +8,10 @@ import 'package:pokemontest/presentation/widget/cardpokemon.dart';
 import 'package:pokemontest/repository/pokemonRepository.dart';
 
 class TabUno extends StatefulWidget {
-  PokemonState state;
+  //PokemonState state;
   TabUno({
     Key? key,
-    required this.state,
+    //required this.state,
   }) : super(key: key);
   @override
   State<TabUno> createState() => _TabUnoState();
@@ -34,18 +34,36 @@ class _TabUnoState extends State<TabUno> {
     return BlocBuilder<PokemonBloc, PokemonState>(
       builder: (context, state) {
         caricaPref(state);
+        var scrollContr = ScrollController();
         return ListView.builder(
-          itemCount: pref.length,
+          controller: scrollContr,
+          itemCount: pref.length + 1,
           itemBuilder: (ctx, index) {
-            var pokemon = pref[index];
-            return InkWell(
-                onTap: () {
-                  /*  
+            if (index == pref.length) {
+              return InkWell(
+                  onTap: () {
+                    BlocProvider.of<PokemonBloc>(context).add(DownloadPokeList(
+                        page: state.currentPage + 1, numItem: 50));
+                  },
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text("Scarica altri 50 pokemon"),
+                        Icon(Icons.arrow_circle_down_sharp),
+                      ],
+                    ),
+                  ));
+            } else {
+              var pokemon = pref[index];
+              return InkWell(
+                  onTap: () {
+                    /*  
                       BlocProvider.of<PokemonBloc>(context)
                           .add(AddFavorite(id: pokemon.id));
                     */
-                },
-                child: CardWidget(id: pokemon.id));
+                  },
+                  child: CardWidget(id: pokemon.id));
+            }
           },
         );
       },

@@ -7,7 +7,8 @@ import 'package:pokemontest/domain/entities/pokemonList.dart';
 import 'package:pokemontest/domain/entities/pokemonStat.dart';
 
 abstract class PokemonRepository {
-  Future<List<PokemonList>> getPokemonsList({required int page});
+  Future<List<PokemonList>> getPokemonsList(
+      {required int page, required int numItem});
   Future<Pokemon?> getPokemon({required int id});
   Future<PokemonAbility> getAbility({required int id});
   Future<PokemonStat> getStat({required int id});
@@ -33,10 +34,14 @@ class PokeApiRepository implements PokemonRepository {
   }
 
   @override
-  Future<List<PokemonList>> getPokemonsList({required int page}) async {
+  Future<List<PokemonList>> getPokemonsList(
+      {required int page, required int numItem}) async {
     List<PokemonList> pokemonList = [];
 
-    final parametri = {'limit': '50', 'offset': (page * 50).toString()};
+    final parametri = {
+      'limit': numItem.toString(),
+      'offset': (page * numItem).toString()
+    };
 
     final response =
         await dio.get("${baseUrl}pokemon", queryParameters: parametri);

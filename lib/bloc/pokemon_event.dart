@@ -10,9 +10,8 @@ abstract class PokemonEvent extends Equatable {
 
 class DownloadPokeList extends PokemonEvent {
   int page;
-  DownloadPokeList({
-    required this.page,
-  });
+  int numItem;
+  DownloadPokeList({required this.page, this.numItem = 50});
 }
 
 class AddFavorite extends PokemonEvent {
