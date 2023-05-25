@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class PercentualIndicator extends StatefulWidget {
   double value;
-  PercentualIndicator({super.key, required this.value});
+  Color color;
+  PercentualIndicator({super.key, required this.value, required this.color});
 
   @override
   State<PercentualIndicator> createState() => _PercentualIndicatorState();
@@ -46,7 +47,7 @@ class _PercentualIndicatorState extends State<PercentualIndicator> {
   }
 
   var size;
-  var colore = Colors.green;
+
   double widthCont = 0;
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _PercentualIndicatorState extends State<PercentualIndicator> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 51, 95, 0),
+                  color: widget.color.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(15),
                   border: Border.all()),
               width: size,
@@ -67,7 +68,7 @@ class _PercentualIndicatorState extends State<PercentualIndicator> {
             AnimatedContainer(
               duration: const Duration(seconds: 1),
               decoration: BoxDecoration(
-                color: colore,
+                color: widget.color,
                 borderRadius: BorderRadius.circular(15),
               ),
               width: widthCont,

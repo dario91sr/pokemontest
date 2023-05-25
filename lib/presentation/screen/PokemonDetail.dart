@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
 import 'package:pokemontest/domain/data/constants.dart';
 import 'package:pokemontest/domain/entities/pokemon.dart';
+import 'package:pokemontest/functions/pokemonFun.dart';
 import 'package:pokemontest/presentation/widget/abilitiesContainer.dart';
 import 'package:pokemontest/presentation/widget/percentualindicator.dart';
 
@@ -25,12 +26,18 @@ class _PokemonDetailState extends State<PokemonDetail> {
     return Scaffold(
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
+          backgroundColor: PokemonFuncion.setColorPoke(
+              widget.pokemon.types.first.type['name']),
           pinned: true,
           snap: false,
           floating: true,
           expandedHeight: 180.0,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(widget.pokemon.name),
+            title: Text(
+              widget.pokemon.name.toUpperCase(),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.black),
+            ),
             background: Image.network(
               "${baseUrlImage + widget.pokemon.id.toString()}.png",
               fit: BoxFit.contain,
@@ -88,7 +95,11 @@ class _PokemonDetailState extends State<PokemonDetail> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PercentualIndicator(value: stat.base_stat.toDouble()),
+                        PercentualIndicator(
+                          value: stat.base_stat.toDouble(),
+                          color: PokemonFuncion.setColorPoke(
+                              widget.pokemon.types.first.type['name']),
+                        ),
                         SizedBox(
                           width: 15,
                         ),

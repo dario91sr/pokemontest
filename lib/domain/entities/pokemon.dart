@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 import 'package:pokemontest/domain/entities/pokemonAbility.dart';
+import 'package:pokemontest/domain/entities/pokemonSpecies.dart';
 import 'package:pokemontest/domain/entities/pokemonStat.dart';
 
 class Pokemon extends Equatable {
@@ -20,7 +21,7 @@ class Pokemon extends Equatable {
 //final List<PokemonMove> moves;
 //final List<PokemonTypePast> past_types;
 //final PokemonSprites sprites;
-//final PokemonSpecies species;
+  final List<PokemonTypes> types;
   final List<PokemonStat> stats;
   const Pokemon({
     required this.id,
@@ -30,6 +31,7 @@ class Pokemon extends Equatable {
     required this.abilities,
     this.preferiti = false,
     this.visible = true,
+    required this.types,
     required this.stats,
   });
 //final List<PokemonType> types;
@@ -42,6 +44,7 @@ class Pokemon extends Equatable {
     List<PokemonAbility>? abilities,
     bool? preferiti,
     bool? visible,
+    List<PokemonTypes>? types,
     List<PokemonStat>? stats,
   }) {
     return Pokemon(
@@ -52,6 +55,7 @@ class Pokemon extends Equatable {
       abilities: abilities ?? this.abilities,
       preferiti: preferiti ?? this.preferiti,
       visible: visible ?? this.visible,
+      types: types ?? this.types,
       stats: stats ?? this.stats,
     );
   }
@@ -63,6 +67,7 @@ class Pokemon extends Equatable {
       'base_experience': base_experience,
       'order': order,
       'abilities': abilities.map((x) => x.toMap()).toList(),
+      'types': types.map((x) => x.toMap()).toList(),
       'stats': stats.map((x) => x.toMap()).toList(),
     };
   }
@@ -76,6 +81,11 @@ class Pokemon extends Equatable {
       abilities: List<PokemonAbility>.from(
         (map['abilities'] as List<dynamic>).map<PokemonAbility>(
           (x) => PokemonAbility.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+      types: List<PokemonTypes>.from(
+        (map['types']).map<PokemonTypes>(
+          (x) => PokemonTypes.fromMap(x as Map<String, dynamic>),
         ),
       ),
       stats: List<PokemonStat>.from(
@@ -102,6 +112,7 @@ class Pokemon extends Equatable {
       base_experience,
       order,
       abilities,
+      types,
       stats,
     ];
   }

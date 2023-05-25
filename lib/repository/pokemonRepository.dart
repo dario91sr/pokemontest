@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:pokemontest/domain/entities/pokemon.dart';
 import 'package:pokemontest/domain/entities/pokemonAbility.dart';
 import 'package:pokemontest/domain/entities/pokemonList.dart';
+import 'package:pokemontest/domain/entities/pokemonSpecies.dart';
 import 'package:pokemontest/domain/entities/pokemonStat.dart';
 
 abstract class PokemonRepository {

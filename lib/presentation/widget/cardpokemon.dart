@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemontest/bloc/pokemon_bloc.dart';
 import 'package:pokemontest/domain/data/constants.dart';
 import 'package:pokemontest/domain/entities/pokemon.dart';
+import 'package:pokemontest/functions/pokemonFun.dart';
 import 'package:pokemontest/presentation/screen/PokemonDetail.dart';
 
 class CardWidget extends StatefulWidget {
@@ -37,7 +38,8 @@ class _CardWidgetState extends State<CardWidget> {
                     arguments: state.pokemons[indice.toInt()]);
               },
               child: Card(
-                color: Colors.green,
+                color: PokemonFuncion.setColorPoke(
+                    state.pokemons[indice.toInt()].types.first.type['name']),
                 child: Column(
                   children: [
                     const SizedBox(

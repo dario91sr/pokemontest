@@ -21,6 +21,9 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
           page: event.page, numItem: event.numItem);
       for (var i = 0; i < pokemons.length; i++) {
         Pokemon? p = await _pokeRepo.getPokemon(id: pokemons[i].id);
+        /* var specie = await _pokeRepo.getSpecies(
+            id: int.parse(p!.species.url.split('/')[6])); 
+        p = p.copyWith(species: specie);*/
         if (p != null) pokemonList.add(p);
       }
 
